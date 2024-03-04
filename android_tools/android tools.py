@@ -130,7 +130,7 @@ class main (qt.QMainWindow):
     def cw(self):
         modes.dialog(self).exec()    
     def ab(self):
-        qt.QMessageBox.information(self,"حول البرنامج","تم إنشاء هذا البرنامج لتشغيل بعض الوظائف على أجهزة الandroid, يرجى عدم حذف مجلد data الموجود بجانب البرنامج. معلومة هامة, إذا لم تعمل الوظائف يرجى تشغيل تصحيح أخطاء USP من خيارات المطور, يرجى العلم أن ليست جميع الوظائف تعمل على كل الأجهزة. (مطور البرنامج غير مسؤل عن إستخدام البرنامج في أي أفعال غير قانونية وغير أخلاقية), تحياتي, مطور البرنامج, (عبد الرحمن محمد)")
+        qt.QMessageBox.information(self,"حول البرنامج","تم إنشاء هذا البرنامج لتشغيل بعض الوظائف على أجهزة الandroid, يرجى عدم حذف مجلد data الموجود بجانب البرنامج. معلومة هامة, إذا لم تعمل الوظائف يرجى تشغيل تصحيح أخطاء USB من خيارات المطور, يرجى العلم أن ليست جميع الوظائف تعمل على كل الأجهزة. (مطور البرنامج غير مسؤل عن إستخدام البرنامج في أي أفعال غير قانونية وغير أخلاقية), تحياتي, مطور البرنامج, (عبد الرحمن محمد)")
     def set_brightness(self, value):        
         brightness = int(self.MIN_BRIGHTNESS + (self.MAX_BRIGHTNESS - self.MIN_BRIGHTNESS) * value / 100)
         brightness_command = f"cd data/platform-tools && adb shell settings put system screen_brightness {brightness}"

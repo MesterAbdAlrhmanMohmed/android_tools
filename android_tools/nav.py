@@ -2,7 +2,6 @@ from PyQt6 import QtWidgets as qt
 from PyQt6 import QtGui as qt1
 from PyQt6 import QtCore as qt2
 import subprocess
-import apps
 class dialog(qt.QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)        
@@ -48,8 +47,8 @@ class dialog(qt.QDialog):
         self.الرجوع=qt.QPushButton("الرجوع")
         self.الرجوع.clicked.connect(self.press_back)
         self.الرجوع.setShortcut("3")        
-        self.فتح=qt.QPushButton("فتح التطبيقات")        
-        self.فتح.clicked.connect(self.appsO)
+        self.فتح=qt.QPushButton("فتح شريط الإشعارات")
+        self.فتح.clicked.connect(self.open_notification_panel)
         self.فتح.setShortcut("4")
         l=qt.QVBoxLayout(self)                            
         l.addWidget(self.حول)        
@@ -65,11 +64,9 @@ class dialog(qt.QDialog):
         l.addWidget(self.الحديثة)
         l.addWidget(self.الرجوع)
         l.addWidget(self.الرئسية)    
-        l.addWidget(self.فتح)
-    def appsO(self):
-        apps.dialog(self).exec()
+        l.addWidget(self.فتح)    
     def ab(self):
-        qt.QMessageBox.information(self,"معلومات هامة","للتنقل في الهاتف للأعلا أو الأسفل أو اليمين أو اليسار, قم بالضغط على السهم المراد, وللسحب الى نفس الإتجاهات قم بالضغط على CTRL زائد السهم المراد وللدخول إضغط enter, ولشريط التنقل إضغط 1 للتطبيقات الأخيرة و2 للشاشة الرئسية و3 للرجوع, ولإختيار تطبيق لفتحه قم بالضغت على الرقم 4")
+        qt.QMessageBox.information(self,"معلومات هامة","للتنقل في الهاتف للأعلا أو الأسفل أو اليمين أو اليسار, قم بالضغط على السهم المراد, وللسحب الى نفس الإتجاهات قم بالضغط على CTRL زائد السهم المراد وللدخول إضغط enter, ولشريط التنقل إضغط 1 للتطبيقات الأخيرة و2 للشاشة الرئسية و3 للرجوع, ولفتح شريط الإشعارات إضغط على الرقم 4")
     def run_adb_command(self, command):                
         try:
             subprocess.Popen([self.ADB_PATH + "adb"] + command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, creationflags=subprocess.CREATE_NO_WINDOW)
@@ -99,3 +96,8 @@ class dialog(qt.QDialog):
         self.run_adb_command(["shell", "input", "keyevent", "KEYCODE_BACK"])
     def press_home(self):
         self.run_adb_command(["shell", "input", "keyevent", "KEYCODE_HOME"])
+    def open_notification_panel(self):
+        try:
+            subprocess.run([self.ADB_PATH + "adb", "shell", "service", "call", "statusbar", "1"], check=True)
+        except subprocess.CalledProcessError as e:
+            qt.QMessageBox.warning(self, "خطأ", "حدث خطأ أثناء فتح شريط الإشعارات")
